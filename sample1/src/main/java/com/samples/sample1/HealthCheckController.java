@@ -1,4 +1,4 @@
-package com.netease.dsf.proxyserver;
+package com.samples.sample1;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,9 +1,7 @@
-package com.netease.dsf.proxyserver;
+package com.samples.sample1;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
-@ComponentScan("com.netease")
 @ImportResource("classpath*:/META-INF/spring/app-*.xml")
 @RestController
 @RequestMapping("/api")
