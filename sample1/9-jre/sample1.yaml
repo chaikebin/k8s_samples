@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample1
+  labels:
+    app: sample1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample1
+  template:
+    metadata:
+      labels:
+        app: sample1
+    spec:
+      # hostNetwork: true
+      containers:
+      - name: sample1
+        image: com/sample1:8-jre
+        command: ["java"]
+        args: ["-XX:+UnlockExperimentalVMOptions","-XX:+UseCGroupMemoryLimitForHeap","-XX:+UseParallelGC","-XX:+PrintFlagsFinal","-XX:+PrintGCDetails","-jar", "/sample1.jar"]
+        ports:
+        - containerPort: 21001
+        - containerPort: 1099
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 100Mi 
+          limits:
+            cpu: 1000m
+            memory: 300Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample1
+  labels:
+    name: sample1
+spec:
+  type: NodePort
+  ports:
+  - name: web
+    port: 21001          #这里的端口和clusterIP(10.97.114.36)对应，即10.97.114.36:80,供内部访问。
+    targetPort: 21001  #端口一定要和container暴露出来的端口对应，nodejs暴露出来的端口是8081，所以这里也应是8081
+    nodePort: 8401
+  - name: jmx
+    port: 1099
+    targetPort: 1099
+    nodePort: 8402
+  selector:
+    app: sample1          #这里选择器一定要选择容器的标签，之前写name:kube-node是错的。
