@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample1-8u181
+  labels:
+    app: sample1-8u181
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample1-8u181
+  template:
+    metadata:
+      labels:
+        app: sample1-8u181
+    spec:
+      containers:
+      - name: sample1-8u181
+        image: registry.cn-hangzhou.aliyuncs.com/k8s_samples/sample1:8u181-jre
+        command: ["java"]
+        args: ["-XX:+UseParallelGC","-XX:+PrintFlagsFinal","-XX:+PrintGCDetails","-jar", "/sample1.jar"]
+        ports:
+        - containerPort: 21001
+        resources:
+          requests:
+            cpu: 500m
+            memory: 100Mi 
+          limits:
+            cpu: 500m
+            memory: 300Mi
